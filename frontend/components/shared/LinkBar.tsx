@@ -1,7 +1,7 @@
 import React from "react";
 
 const LinkBar = () => {
-  return <div>LinkBar</div>;
+  return <div>Your linktree is active at the url</div>;
 };
 
 export default LinkBar;

@@ -5,9 +5,8 @@ import LinkContainer from "./admin/LinkContainer";
 
 const SettingsBox = () => {
   return (
-    <div className="w-[800px] m-auto ">
+    <div className="w-[800px] m-auto">
       <LinkBar />
-      <PrimaryButton />
       <LinkContainer />
     </div>
   );

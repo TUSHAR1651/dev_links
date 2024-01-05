@@ -13,14 +13,16 @@ const LinkInput = (props: any) => {
     setInputDisabled(true);
   };
 
+  // Here the blur property is not working properly need to look into that property....
+
   return (
     <>
       <div className="flex gap-2" onClick={inputClickHandler}>
         <Input
-          onBlur={() => {
-            console.log("Input blurred");
-            setInputDisabled(true);
-          }}
+          //   onBlur={() => {
+          //     console.log("Input blurred");
+          //     setInputDisabled(true);
+          //   }}
           placeholder=""
           value={value}
           className={`${
