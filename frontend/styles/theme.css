@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .background-light900 {
+    @apply bg-light-900;
+  }
+
+  .background-white {
+    @apply bg-white;
+  }
+
+  /*** FONTS ***/
+
+  /* Paragraph */
+  .paragraph-regular {
+    @apply text-[16px] font-normal leading-[22.4px];
+  }
+
+  .paragraph-medium {
+    @apply text-[16px] font-medium leading-[22.4px];
+  }
+
+  .paragraph-semibold {
+    @apply text-[16px] font-semibold leading-[20.8px];
+  }
+
+  .body-regular {
+    @apply text-[14px] font-normal leading-[19.6px];
+  }
+
+  .body-medium {
+    @apply text-[14px] font-medium leading-[18.2px];
+  }
+
+  .body-semibold {
+    @apply text-[14px] font-semibold leading-[18.2px];
+  }
+
+  /* Base */
+
+  .base-medium {
+    @apply text-[18px] font-medium leading-[25.2px];
+  }
+
+  .base-semibold {
+    @apply text-[18px] font-semibold leading-[25.2px];
+  }
+
+  .base-bold {
+    @apply text-[18px] font-bold leading-[140%];
+  }
+}
