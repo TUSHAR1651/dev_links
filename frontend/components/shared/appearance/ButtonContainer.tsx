@@ -1,7 +1,36 @@
 import React from "react";
 import ButtonCard from "../cards/ButtonCard";
 
-const BTNS = [{}];
+const BTNS = [
+  {
+    title: "Fill",
+    variants: [
+      {
+        backgroundColor: "bg-gray-700 rounded-none",
+      },
+      {
+        backgroundColor: "bg-black rounded-lg",
+      },
+      {
+        backgroundColor: "bg-black rounded-3xl",
+      },
+    ],
+  },
+  {
+    title: "Outline",
+    variants: [
+      {
+        backgroundColor: "bg-white border-2 border-black rounded-none",
+      },
+      {
+        backgroundColor: "bg-white border-2 border-black rounded-lg",
+      },
+      {
+        backgroundColor: "bg-white  border-2 border-black rounded-3xl",
+      },
+    ],
+  },
+];
 
 const ButtonContainer = () => {
   return (
@@ -9,12 +38,20 @@ const ButtonContainer = () => {
       <h3 className="h3-semibold mb-4 pl-2">Buttons</h3>
       <div className="bg-white py-8 px-8 rounded-3xl">
         <div className="flex justify-between">
-          <div className="w-[140px] h-[200px] bg-white border-dashed border-gray-700 border-[1px] rounded-lg flex items-center justify-center text-center paragraph-medium text-gray-500">
-            UPLOAD IMAGE
+          <div className="flex flex-col gap-12">
+            {BTNS.map((btn) => {
+              return (
+                <div className="">
+                  <h3 className="h3-semibold mb-4">{btn.title}</h3>
+                  <div className="flex gap-4">
+                    {btn.variants.map((variant) => {
+                      return <ButtonCard properties={variant} />;
+                    })}
+                  </div>
+                </div>
+              );
+            })}
           </div>
-          {BTNS.map((btn) => {
-            return <ButtonCard />;
-          })}
         </div>
       </div>
     </div>

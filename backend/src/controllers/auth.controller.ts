@@ -12,12 +12,11 @@ export const Signup = async (req: Request, res: Response) => {
   try {
     signupSchema.parse(req.body);
 
-    const { email, password, confirmPassword, username, namej } = req.body;
+    const { email, password, confirmPassword, username, name } = req.body;
 
     console.log({ email, password, confirmPassword, username });
 
     const existingUser = await User.findOne({ email });
-    console.log(existingUser);
 
     if (existingUser)
       return res.status(400).json({ message: "User already exists" });
@@ -48,7 +47,7 @@ export const Signup = async (req: Request, res: Response) => {
       user: newUser,
     });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    res.status(500).json({ message: "Something went wrongg" });
   }
 };
 

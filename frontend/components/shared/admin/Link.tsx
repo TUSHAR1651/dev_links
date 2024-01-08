@@ -1,6 +1,8 @@
+"use client";
+
 import { GripVertical, Image, BarChart4, Star, Trash2 } from "lucide-react";
-import React from "react";
-import LinkInput from "../LinkInput";
+import React, { useState } from "react";
+import { Switch } from "@/components/ui/switch";
 import {
   Tooltip,
   TooltipContent,
@@ -8,8 +10,29 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+import LinkInput from "../LinkInput";
+import { useAuth } from "@/context/authContext";
+
 const Link = (props: any) => {
-  const { title, url } = props;
+  const { id, title, url, active } = props;
+
+  const [linkTitle, setLinkTitle] = useState(title);
+  const [linkURL, setLinkURL] = useState(url);
+
+  const { updateLink } = useAuth();
+
+  const urlChangeHandler = (e: any) => {
+    setLinkURL(e.target.value);
+  };
+
+  const titleChangeHandler = (e: any) => {
+    setLinkTitle(e.target.value);
+  };
+
+  // can also improve the UX by sending an api request after certain time of inactivity
+  const updateLinkBackend = () => {
+    updateLink(id, linkTitle, linkURL);
+  };
 
   return (
     <div className="bg-white py-6 px-4 rounded-lg w-full">
@@ -19,8 +42,18 @@ const Link = (props: any) => {
         </div>
         <div className="col-span-8">
           <div className="flex flex-col gap-2">
-            <LinkInput type="title" value={title} />
-            <LinkInput type="url" value={url} />
+            <LinkInput
+              type="title"
+              value={linkTitle}
+              onChange={(e: Event) => titleChangeHandler(e)}
+              onBlur={() => updateLinkBackend()}
+            />
+            <LinkInput
+              type="url"
+              value={linkURL}
+              onChange={(e: Event) => urlChangeHandler(e)}
+              onBlur={() => updateLinkBackend()}
+            />
           </div>
           <div className="mt-6">
             <div className="flex gap-8">
@@ -64,7 +97,12 @@ const Link = (props: any) => {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
-                      <Trash2 strokeWidth={1} />
+                      <Trash2
+                        strokeWidth={1}
+                        // onClick={() => {
+                        //   removeLink(id);
+                        // }}
+                      />
                     </TooltipTrigger>
                     <TooltipContent>
                       <p className="small-medium">DELETE</p>
@@ -77,7 +115,7 @@ const Link = (props: any) => {
         </div>
 
         <div>
-          <p>Switch</p>
+          <Switch checked={active} onCheckedChange={() => {}} />
         </div>
       </div>
     </div>

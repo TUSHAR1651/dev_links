@@ -12,12 +12,20 @@ export interface IUser extends mongoose.Document {
   passwordResetToken?: string;
   passwordResetExpires?: Date;
   active: boolean;
+  image?: string;
+
+  theme?: mongoose.Schema.Types.ObjectId;
+  events?: [mongoose.Schema.Types.ObjectId];
 
   links?: [
     {
       url: string;
       title: string;
       icon: string;
+      star: boolean;
+      thumbnail?: string;
+      active: boolean;
+      priority: number;
     }
   ];
 
@@ -41,16 +49,22 @@ export interface IUser extends mongoose.Document {
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
+
   username: {
     type: String,
     required: true,
     unique: true,
   },
+
+  image: { type: String },
   active: { type: Boolean, default: true },
   password: { type: String, required: true },
   passwordChangedAt: { type: Date },
   passwordResetToken: { type: String },
   passwordResetExpires: { type: Date },
+
+  theme: { type: mongoose.Schema.Types.ObjectId, ref: "Theme" },
+  events: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event", default: [] }],
 
   socialLinks: {
     facebook: { type: String, default: "" },
@@ -61,9 +75,13 @@ const userSchema = new mongoose.Schema({
 
   links: [
     {
-      url: { type: String },
-      title: { type: String },
+      url: { type: String, default: "" },
+      title: { type: String, default: "" },
       icon: { type: String },
+      star: { type: Boolean, default: false },
+      thumbnail: { type: String },
+      active: { type: Boolean, default: false },
+      priority: { type: Number, default: 1 },
     },
   ],
 });

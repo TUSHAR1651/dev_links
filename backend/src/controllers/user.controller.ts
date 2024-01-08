@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../database/User.model";
 
-// we will use this to render the admin side of the user
 export const getMyProfile = async (req: Request, res: Response) => {
   try {
     const user = req.body.user;
@@ -12,7 +11,6 @@ export const getMyProfile = async (req: Request, res: Response) => {
   }
 };
 
-// we will use this to render the whole profile page of the user
 export const getUserByUsername = async (req: Request, res: Response) => {
   try {
     const username = req.params.username;
@@ -30,17 +28,12 @@ export const getUserByUsername = async (req: Request, res: Response) => {
 export const addLink = async (req: Request, res: Response) => {
   try {
     const user = req.body.user;
-    console.log({ user });
 
-    const { url, title, icon } = req.body;
-
-    console.log({ url, title, icon });
-
-    user.links?.push({ url, title, icon });
+    user.links?.push({ url: "example.com", title: "example-title", icon: "" });
 
     await user.save();
 
-    res.status(200).json({ message: "User found", user });
+    res.status(200).json({ message: "User found", user: user });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
@@ -50,9 +43,14 @@ export const updateLink = async (req: Request, res: Response) => {
   try {
     const user = req.body.user;
 
-    const { url, title, icon } = req.body;
+    const { url, title, id } = req.body;
 
-    // updating the link from the array
+    user.links?.map((link: any) => {
+      if (link._id == id) {
+        link.title = title;
+        link.url = url;
+      }
+    });
 
     await user.save();
 

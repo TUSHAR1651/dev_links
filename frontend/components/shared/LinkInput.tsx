@@ -7,22 +7,18 @@ import { Edit3 } from "lucide-react";
 const LinkInput = (props: any) => {
   const [inputDisabled, setInputDisabled] = useState(false);
 
-  const { value, type } = props;
+  const { value, type, onChange, onBlur } = props;
 
   const inputClickHandler = () => {
     setInputDisabled(true);
   };
 
-  // Here the blur property is not working properly need to look into that property....
-
   return (
     <>
       <div className="flex gap-2" onClick={inputClickHandler}>
         <Input
-          //   onBlur={() => {
-          //     console.log("Input blurred");
-          //     setInputDisabled(true);
-          //   }}
+          onBlur={onBlur}
+          onChange={onChange}
           placeholder=""
           value={value}
           className={`${
