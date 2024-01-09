@@ -6,8 +6,6 @@ interface AuthContextType {
   setUser: any;
   isAuthenticated?: any;
   loading?: any;
-  addLink: any;
-  updateLink?: any;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -15,8 +13,6 @@ export const AuthContext = createContext<AuthContextType>({
   setUser: () => {},
   isAuthenticated: false,
   loading: false,
-  addLink: () => {},
-  updateLink: () => {},
 });
 
 type AuthProviderProps = {
@@ -37,7 +33,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           },
         });
         setUser(data.user);
-        console.log(data.user);
       } catch (error) {
         console.log(error);
       } finally {
@@ -47,70 +42,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     fetchUser();
   }, []);
 
-  const addLinkHandler = async () => {
-    const res = await axios.post(
-      "http://localhost:5000/user/add-link",
-      {
-        title: "title",
-        url: "example.com",
-        id: Math.trunc(Math.random() * 1000),
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-
-    if (res.status == 200) {
-      setUser(res.data.user);
-    }
-  };
-
-  const updateLinkHandler = async (id: number, title: string, url: string) => {
-    console.log(title);
-
-    const res = await axios.patch(
-      "http://localhost:5000/user/update-link",
-      {
-        id: id,
-        title: title,
-        url: url,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-
-    if (res.status == 200) {
-      setUser(res.data.user);
-    }
-
-    console.log(res);
-  };
-
-  const deleteLinkHandler = async (id: number) => {};
-
-  const activeToggleHandler = async (id: number) => {
-    const res = await axios.post(
-      "http://localhost:5000/user/toggle-link",
-      {
-        id: id,
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
-
-    if (res.status == 200) {
-      setUser(res.data.user);
-    }
-  };
-
   return (
     <AuthContext.Provider
       value={{
@@ -118,8 +49,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setUser: setUser,
         isAuthenticated: true,
         loading: loading,
-        addLink: addLinkHandler,
-        updateLink: updateLinkHandler,
       }}
     >
       {children}
@@ -128,8 +57,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 };
 
 export const useAuth = () => {
-  const { user, setUser, isAuthenticated, loading, addLink, updateLink } =
-    useContext(AuthContext);
+  const { user, setUser, isAuthenticated, loading } = useContext(AuthContext);
 
-  return { user, setUser, isAuthenticated, loading, addLink, updateLink };
+  return {
+    user,
+    setUser,
+    isAuthenticated,
+    loading,
+  };
 };

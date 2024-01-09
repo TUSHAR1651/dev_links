@@ -5,6 +5,7 @@ import cors from "cors";
 
 import connectDB from "./utils/mongoose";
 import userRouter from "./router/user";
+import themeRouter from "./router/theme";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(express.json());
 
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
+app.use("/theme", themeRouter);
 
 connectDB();
 

@@ -22,7 +22,7 @@ const Page = () => {
           <LinkBar />
           <SettingsBox />
         </div>
-        <div className="justify-self-center bg-red-100 w-full">
+        <div className="justify-self-center w-full">
           <PreviewBox />
         </div>
       </section>

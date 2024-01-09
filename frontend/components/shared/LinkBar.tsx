@@ -3,16 +3,18 @@
 import Link from "next/link";
 import React from "react";
 import { Button } from "../ui/button";
+import { useAuth } from "@/context/authContext";
 
 const LinkBar = () => {
   const [copied, setCopied] = React.useState(false);
+  const { user } = useAuth();
 
   return (
     <div className="bg-indigo-100 py-6 px-8 rounded-3xl mb-12 flex justify-between items-center">
       <div className="flex gap-4 items-center justify-center">
         <p>Your Profile is active at the URL:</p>
         <span className="paragraph-semibold hover:underline hover:cursor-pointer">
-          <Link href="">exampel.com</Link>
+          <Link href={`/${user?.username}`}>devlinks/{user?.username}</Link>
         </span>
       </div>
 

@@ -8,7 +8,6 @@ export interface ITheme extends mongoose.Document {
   textColor: string;
   otherCss: string;
   custom: boolean;
-  id: number;
 }
 
 const themeSchema = new mongoose.Schema({
@@ -19,7 +18,8 @@ const themeSchema = new mongoose.Schema({
   textColor: { type: String, required: true },
   otherCss: { type: String, required: true },
   custom: { type: Boolean, required: true },
-  id: { type: Number, required: true },
 });
 
-export const User = mongoose.model<ITheme>("Theme", themeSchema);
+const Theme = mongoose.model<ITheme>("Theme", themeSchema);
+
+export default Theme;

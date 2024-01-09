@@ -1,15 +1,19 @@
 "use client";
 
-import { useUserStore } from "@/store/user.store";
 import React from "react";
+import { useUser } from "@/context/userContext";
 
 const AppearanceCard = (props: any) => {
-  const { updateActiveTheme } = useUserStore();
-  const { properties, onSelect, selected, setSelected } = props;
+  const { properties } = props;
+  const { userTheme, loading, updateTheme } = useUser();
 
-  const active = selected === properties.id;
+  const onSelectHandler = (id: string) => {
+    updateTheme(id);
+  };
 
-  // console.log(properties.background);
+  const active = userTheme._id === properties._id;
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div
@@ -18,11 +22,9 @@ const AppearanceCard = (props: any) => {
       }`}
     >
       <div
-        className={`${properties.background}`}
+        className={` w-[140px] h-[200px] p-4 bg ${properties.background}`}
         onClick={() => {
-          updateActiveTheme(properties.id);
-          onSelect(properties.id);
-          setSelected(properties.id);
+          onSelectHandler(properties._id);
         }}
       >
         <div className="flex flex-col gap-2 items-center mt-14">

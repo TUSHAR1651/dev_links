@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/tooltip";
 
 import LinkInput from "../LinkInput";
-import { useAuth } from "@/context/authContext";
+import { useUser } from "@/context/userContext";
 
 const Link = (props: any) => {
   const { id, title, url, active } = props;
@@ -19,7 +19,7 @@ const Link = (props: any) => {
   const [linkTitle, setLinkTitle] = useState(title);
   const [linkURL, setLinkURL] = useState(url);
 
-  const { updateLink } = useAuth();
+  const { updateLink, toggleLink } = useUser();
 
   const urlChangeHandler = (e: any) => {
     setLinkURL(e.target.value);
@@ -29,7 +29,6 @@ const Link = (props: any) => {
     setLinkTitle(e.target.value);
   };
 
-  // can also improve the UX by sending an api request after certain time of inactivity
   const updateLinkBackend = () => {
     updateLink(id, linkTitle, linkURL);
   };
@@ -97,12 +96,7 @@ const Link = (props: any) => {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
-                      <Trash2
-                        strokeWidth={1}
-                        // onClick={() => {
-                        //   removeLink(id);
-                        // }}
-                      />
+                      <Trash2 strokeWidth={1} onClick={() => {}} />
                     </TooltipTrigger>
                     <TooltipContent>
                       <p className="small-medium">DELETE</p>
@@ -115,7 +109,12 @@ const Link = (props: any) => {
         </div>
 
         <div>
-          <Switch checked={active} onCheckedChange={() => {}} />
+          <Switch
+            checked={active}
+            onCheckedChange={() => {
+              toggleLink(id);
+            }}
+          />
         </div>
       </div>
     </div>

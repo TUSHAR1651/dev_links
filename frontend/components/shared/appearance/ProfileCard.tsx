@@ -1,5 +1,6 @@
 import ProfileForm from "@/components/forms/ProfileForm";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/authContext";
 import Image from "next/image";
 import React from "react";
 
@@ -23,7 +24,7 @@ const ProfileCard = () => {
               <Button className="bg-primary-500 hover:bg-primary-600 text-white rounded-full py-6">
                 Upload Image
               </Button>
-              <Button className="bg-white hover:bg-gray-100 rounded-full py-6">
+              <Button className="bg-white hover:bg-gray-200 rounded-full py-6">
                 Remove
               </Button>
             </div>

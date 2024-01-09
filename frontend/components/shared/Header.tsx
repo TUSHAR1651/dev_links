@@ -18,9 +18,6 @@ import { useAuth } from "@/context/authContext";
 
 const Header = () => {
   const { user, setUser, loading } = useAuth();
-  console.log(loading);
-
-  console.log(user);
 
   return (
     <header className=" h-[70px] background-white my-6 mx-2 rounded-full py-2 px-12 flex items-center justify-between">

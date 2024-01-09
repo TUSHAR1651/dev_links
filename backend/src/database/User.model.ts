@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import bycrptjs from "bcryptjs";
 import crypto from "crypto";
-import { NextFunction } from "express";
 
 export interface IUser extends mongoose.Document {
   name?: string;

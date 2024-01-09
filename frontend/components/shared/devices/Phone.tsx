@@ -2,37 +2,32 @@
 
 import React from "react";
 
-import { useAppearanceStore } from "@/store/appearance.store";
-import { useUserStore } from "@/store/user.store";
-import { useAuth } from "@/context/authContext";
+import { useUser } from "@/context/userContext";
 
 const Phone = () => {
-  const { user } = useAuth();
-  const { appearance } = useUserStore();
-  const { updateAppearance, themes } = useAppearanceStore();
+  const { userLinks, userTheme, loading } = useUser();
 
-  const activeLinks = user?.links.filter((link: any) => link.active);
+  if (loading) return <div>Loading...</div>;
 
-  const activeTheme = themes.find((theme: any) => theme.id == appearance.id);
-
-  const divClassname = `${
-    activeTheme.background +
-    " " +
-    activeTheme.button +
-    " " +
-    activeTheme.textColor
-  } h-[500px] w-[375px]`;
+  // console.log(userTheme);
 
   return (
-    <div>
-      <div className={divClassname}>
-        {user?.links.map((link: any) => {
-          return (
-            <div className="" key={link.id}>
-              {link.title}
-            </div>
-          );
-        })}
+    <div
+      className={`${userTheme?.background} py-4 px-8 h-[500px] w-[375px] rounded-lg`}
+    >
+      <div className="flex flex-col gap-6 justify-center items-center">
+        {userLinks
+          .filter((link: any) => link.active)
+          .map((link: any) => {
+            return (
+              <div
+                className={`${userTheme?.buttons} w-[200px] text-center py-4 rounded-full cursor-pointer`}
+                key={link.id}
+              >
+                {link.title}
+              </div>
+            );
+          })}
       </div>
     </div>
   );

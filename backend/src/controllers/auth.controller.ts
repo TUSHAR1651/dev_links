@@ -6,15 +6,13 @@ import crypto from "crypto";
 import { User } from "../database/User.model";
 import sendEmail from "../utils/email";
 import { signupSchema, signinSchema } from "../validations/zod";
+import Theme from "../database/theme.model";
 
-// ROUTES
 export const Signup = async (req: Request, res: Response) => {
   try {
     signupSchema.parse(req.body);
 
     const { email, password, confirmPassword, username, name } = req.body;
-
-    console.log({ email, password, confirmPassword, username });
 
     const existingUser = await User.findOne({ email });
 
@@ -259,7 +257,6 @@ export const CurrentUser = async (req: Request, res: Response) => {
 
 export const RefreshToken = async (req: Request, res: Response) => {};
 
-// MIDDLEWARES
 export const protect = async (
   req: Request,
   res: Response,
@@ -272,7 +269,10 @@ export const protect = async (
 
     const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
 
-    const user = await User.findOne({ email: decoded.email });
+    const user = await User.findOne({ email: decoded.email }).populate({
+      path: "theme",
+      model: Theme,
+    });
 
     if (!user) return res.status(404).json({ message: "User not found" });
 

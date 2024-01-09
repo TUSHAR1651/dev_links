@@ -3,10 +3,10 @@
 import React from "react";
 import Link from "./Link";
 import PrimaryButton from "./PrimaryButton";
-import { useAuth } from "@/context/authContext";
+import { useUser } from "@/context/userContext";
 
 const LinkContainer = () => {
-  const { user, setUser, addLink } = useAuth();
+  const { addLink, userLinks } = useUser();
 
   const addLinkHandler = async () => {
     addLink();
@@ -19,7 +19,7 @@ const LinkContainer = () => {
       </div>
 
       <div className="flex flex-col gap-6">
-        {user?.links.map((link: any) => {
+        {userLinks?.map((link: any) => {
           return (
             <Link
               key={link._id}

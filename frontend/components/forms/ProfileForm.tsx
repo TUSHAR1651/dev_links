@@ -1,8 +1,7 @@
 "use client";
 
 import * as z from "zod";
-import React from "react";
-
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,42 +12,70 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 
+import { useUser } from "@/context/userContext";
+import { userAgent } from "next/server";
+
 const formSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
-  title: z.string().min(2, {
-    message: "Title must be at least 2 characters.",
-  }),
+  bio: z.string(),
 });
 
 function ProfileForm() {
+  const { user, setUser } = useUser();
+
+  if (!user) return null;
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
-      title: "",
+      username: user?.username,
+      bio: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log(values);
-  }
+
+    if (values.username == user.username) return console.log("No changes made");
+
+    try {
+      const { data } = await axios.patch(
+        "http://localhost:5000/user/me",
+        {
+          username: values.username,
+          bio: values.bio,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      console.log(data);
+
+      setUser(data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="title"
+          name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Profile Title</FormLabel>
+              <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input placeholder="shadcn" {...field} />
               </FormControl>
@@ -59,7 +86,7 @@ function ProfileForm() {
         />
         <FormField
           control={form.control}
-          name="username"
+          name="bio"
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -70,7 +97,14 @@ function ProfileForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <div className="flex justify-end">
+          <Button
+            className="bg-primary-500 text-white disabled:bg-primary-500/60"
+            type="submit"
+          >
+            Submit
+          </Button>
+        </div>
       </form>
     </Form>
   );
