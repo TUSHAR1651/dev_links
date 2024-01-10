@@ -27,7 +27,7 @@ const Page = ({ params }: any) => {
           `http://localhost:5000/user/${username}`
         );
 
-        console.log(data.user[0]);
+        // console.log(data.user[0]);
         setUser(data.user[0]);
       } catch (error) {
         return error;

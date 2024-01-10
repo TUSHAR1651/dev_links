@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/tooltip";
 
 import LinkInput from "../LinkInput";
-import { useUser } from "@/context/userContext";
+import { useAuth } from "@/context/authContext";
 
 const Link = (props: any) => {
   const { id, title, url, active } = props;
@@ -19,7 +19,7 @@ const Link = (props: any) => {
   const [linkTitle, setLinkTitle] = useState(title);
   const [linkURL, setLinkURL] = useState(url);
 
-  const { updateLink, toggleLink } = useUser();
+  const { updateLink, toggleLink } = useAuth();
 
   const urlChangeHandler = (e: any) => {
     setLinkURL(e.target.value);

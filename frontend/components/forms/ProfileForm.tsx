@@ -17,9 +17,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
-
-import { useUser } from "@/context/userContext";
-import { userAgent } from "next/server";
+import { useAuth } from "@/context/authContext";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -29,7 +27,7 @@ const formSchema = z.object({
 });
 
 function ProfileForm() {
-  const { user, setUser } = useUser();
+  const { user, setUser } = useAuth();
 
   if (!user) return null;
 
@@ -42,7 +40,7 @@ function ProfileForm() {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    // console.log(values);
 
     if (values.username == user.username) return console.log("No changes made");
 

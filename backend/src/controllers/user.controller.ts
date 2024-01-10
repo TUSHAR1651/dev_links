@@ -94,9 +94,9 @@ export const toggleLink = async (req: Request, res: Response) => {
 
     user?.links?.map((link: any) => {
       if (link._id == id) {
-        console.log(link._id == id);
+        // console.log(link._id == id);
         link.active = !link.active;
-        console.log("change made");
+        // console.log("change made");
       }
     });
 

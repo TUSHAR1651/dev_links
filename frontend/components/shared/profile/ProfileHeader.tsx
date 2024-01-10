@@ -9,7 +9,7 @@ const ProfileHeader = ({
   username: string;
   socialLinks: any;
 }) => {
-  console.log(socialLinks?.facebook);
+  // console.log(socialLinks?.facebook);
 
   return (
     <div className="p-6 mb-12">
@@ -21,7 +21,7 @@ const ProfileHeader = ({
       <div className="flex justify-center mb-4">
         <Image
           alt="Profile header image"
-          src=""
+          src="https://ugc.production.linktr.ee/2ljqHzRRpe9Q20qqR7ag_fajRD8z3cZPD34T4?io=true&size=avatar-v1_0"
           width={96}
           height={96}
           className="rounded-full"

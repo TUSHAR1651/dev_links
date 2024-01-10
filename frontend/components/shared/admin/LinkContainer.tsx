@@ -3,10 +3,10 @@
 import React from "react";
 import Link from "./Link";
 import PrimaryButton from "./PrimaryButton";
-import { useUser } from "@/context/userContext";
+import { useAuth } from "@/context/authContext";
 
 const LinkContainer = () => {
-  const { addLink, userLinks } = useUser();
+  const { addLink, userLinks } = useAuth();
 
   const addLinkHandler = async () => {
     addLink();

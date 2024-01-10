@@ -3,10 +3,10 @@
 import React, { useEffect } from "react";
 import AppearanceCard from "../cards/AppearanceCard";
 import { useAppearanceStore } from "@/store/appearance.store";
-import { useUser } from "@/context/userContext";
+import { useAuth } from "@/context/authContext";
 
 const AppearanceContainer = () => {
-  const { userTheme } = useUser();
+  const { userTheme } = useAuth();
   const { themes, fetchThemes } = useAppearanceStore();
 
   useEffect(() => {

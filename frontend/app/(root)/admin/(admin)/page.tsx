@@ -5,19 +5,29 @@ import PreviewBox from "@/components/shared/PreviewBox";
 import SettingsBox from "@/components/shared/SettingsBox";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
-import React from "react";
+
+import React, { useEffect } from "react";
 
 const Page = () => {
   const router = useRouter();
-  const { user, setUser, isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!isAuthenticated) {
-    return router.push("/auth/signin");
+    router.push("/auth/signin");
+  }
+
+  if (!isAuthenticated) {
+    return <div>Loading...</div>;
   }
 
   return (
     <>
       <section className="grid grid-cols-5 justify-items-center gap-12 mx-10">
+        {/* <p>{JSON.stringify(user)}</p> */}
         <div className="w-full col-span-3 justify-self-center">
           <LinkBar />
           <SettingsBox />

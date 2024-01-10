@@ -2,10 +2,10 @@
 
 import React from "react";
 
-import { useUser } from "@/context/userContext";
+import { useAuth } from "@/context/authContext";
 
 const Phone = () => {
-  const { userLinks, userTheme, loading } = useUser();
+  const { userLinks, userTheme, loading } = useAuth();
 
   if (loading) return <div>Loading...</div>;
 

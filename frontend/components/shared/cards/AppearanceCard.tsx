@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import { useUser } from "@/context/userContext";
+import { useAuth } from "@/context/authContext";
 
 const AppearanceCard = (props: any) => {
   const { properties } = props;
-  const { userTheme, loading, updateTheme } = useUser();
+  const { userTheme, loading, updateTheme } = useAuth();
 
   const onSelectHandler = (id: string) => {
     updateTheme(id);
