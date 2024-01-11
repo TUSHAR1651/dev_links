@@ -1,8 +1,10 @@
 import express from "express";
 import {
   addLink,
+  deleteLink,
   getMyProfile,
   getUserByUsername,
+  registerLinkClick,
   toggleLink,
   updateLink,
   updateProfile,
@@ -12,16 +14,17 @@ import { protect } from "../controllers/auth.controller";
 
 const userRouter = express.Router();
 
-// These routes are for the user profile
 userRouter.get("/me", protect, getMyProfile);
 userRouter.patch("/me", protect, updateProfile);
 
-userRouter.get("/:username", getUserByUsername); // public route
+userRouter.get("/:username", getUserByUsername);
 
 userRouter.patch("/link/:id", protect, updateLink);
 userRouter.post("/link", protect, addLink);
-// userRouter.delete("/link/:id", protect, deleteLink);
+userRouter.delete("/link/:id", protect, deleteLink);
 userRouter.post("/toggle-link", protect, toggleLink);
+
+userRouter.post("/link/register-click/:id", registerLinkClick);
 
 userRouter.post("/theme", protect, updateUserTheme);
 

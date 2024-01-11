@@ -7,6 +7,7 @@ import { User } from "../database/User.model";
 import sendEmail from "../utils/email";
 import { signupSchema, signinSchema } from "../validations/zod";
 import Theme from "../database/theme.model";
+import { Link } from "../database/link.model";
 
 export const Signup = async (req: Request, res: Response) => {
   try {
@@ -269,10 +270,16 @@ export const protect = async (
 
     const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
 
-    const user = await User.findOne({ email: decoded.email }).populate({
-      path: "theme",
-      model: Theme,
-    });
+    const user = await User.findOne({ email: decoded.email }).populate([
+      {
+        path: "theme",
+        model: Theme,
+      },
+      {
+        path: "links",
+        model: Link,
+      },
+    ]);
 
     if (!user) return res.status(404).json({ message: "User not found" });
 

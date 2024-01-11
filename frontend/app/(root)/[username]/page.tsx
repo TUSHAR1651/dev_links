@@ -14,7 +14,7 @@ import React, { useEffect, useState } from "react";
 type User = any;
 
 const Page = ({ params }: any) => {
-  const [user, setUser] = useState<User>(); // Update the type of 'user' state
+  const [user, setUser] = useState<User>();
   const [loading, setLoading] = useState(true);
 
   const { username } = params;
@@ -27,8 +27,7 @@ const Page = ({ params }: any) => {
           `http://localhost:5000/user/${username}`
         );
 
-        // console.log(data.user[0]);
-        setUser(data.user[0]);
+        setUser(data.user);
       } catch (error) {
         return error;
       } finally {

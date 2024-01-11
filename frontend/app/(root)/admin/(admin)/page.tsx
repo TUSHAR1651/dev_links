@@ -6,7 +6,7 @@ import SettingsBox from "@/components/shared/SettingsBox";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
 
-import React, { useEffect } from "react";
+import React from "react";
 
 const Page = () => {
   const router = useRouter();
@@ -18,10 +18,6 @@ const Page = () => {
 
   if (!isAuthenticated) {
     router.push("/auth/signin");
-  }
-
-  if (!isAuthenticated) {
-    return <div>Loading...</div>;
   }
 
   return (

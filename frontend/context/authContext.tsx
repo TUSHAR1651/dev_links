@@ -1,3 +1,5 @@
+"use client";
+
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
@@ -40,27 +42,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState(undefined);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [userLinks, setUserLinks] = useState([]);
   const [userTheme, setUserTheme] = useState({});
-
-  // const fetchUser = async () => {
-  //   try {
-  //     const { data } = await axios("http://localhost:5000/user/me", {
-  //       headers: {
-  //         Authorization: "Bearer " + localStorage.getItem("token"),
-  //       },
-  //     });
-
-  //     setUser(data?.user);
-  //     setUserLinks(data?.user?.links);
-  //     setUserTheme(data?.user?.theme);
-  //   } catch (error) {
-  //     return error;
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const addLinkHandler = async () => {
     const res = await axios.post(
@@ -75,6 +59,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         },
       }
     );
+
+    console.log(res.data);
 
     if (res.status == 200) {
       setUserLinks(res.data.user.links);
@@ -108,7 +94,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
 
     if (res.status == 200) {
-      setUserLinks(res.data.user);
+      setUserLinks(res.data.user.links);
     }
   };
 
@@ -174,12 +160,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
+
         setUser(data.user);
 
         setIsAuthenticated(true);
         setUserLinks(data?.user?.links);
         setUserTheme(data?.user?.theme);
-        setToken(localStorage.getItem("token"));
+        setToken(localStorage.getItem("token") || "");
       } catch (error) {
         console.log(error);
       } finally {

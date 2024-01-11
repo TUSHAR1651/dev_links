@@ -15,11 +15,12 @@ import { useAuth } from "@/context/authContext";
 
 const Link = (props: any) => {
   const { id, title, url, active } = props;
+  const [dragging, setDragging] = useState();
 
   const [linkTitle, setLinkTitle] = useState(title);
   const [linkURL, setLinkURL] = useState(url);
 
-  const { updateLink, toggleLink } = useAuth();
+  const { updateLink, toggleLink, deleteLink } = useAuth();
 
   const urlChangeHandler = (e: any) => {
     setLinkURL(e.target.value);
@@ -37,7 +38,7 @@ const Link = (props: any) => {
     <div className="bg-white py-6 px-4 rounded-lg w-full">
       <div className=" grid grid-cols-10">
         <div className="col-span-1">
-          <GripVertical strokeWidth={1} />
+          <GripVertical className="hover:cursor-grab" strokeWidth={1} />
         </div>
         <div className="col-span-8">
           <div className="flex flex-col gap-2">
@@ -95,7 +96,7 @@ const Link = (props: any) => {
               <div className="ml-6 text-gray-400 hover:text-red-600">
                 <TooltipProvider>
                   <Tooltip>
-                    <TooltipTrigger>
+                    <TooltipTrigger onClick={() => deleteLink(id)}>
                       <Trash2 strokeWidth={1} onClick={() => {}} />
                     </TooltipTrigger>
                     <TooltipContent>
@@ -110,6 +111,7 @@ const Link = (props: any) => {
 
         <div>
           <Switch
+            className={`${active ? "bg-green-500" : "bg-gray-200"}`}
             checked={active}
             onCheckedChange={() => {
               toggleLink(id);

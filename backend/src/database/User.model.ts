@@ -13,20 +13,12 @@ export interface IUser extends mongoose.Document {
   active: boolean;
   image?: string;
 
+  profileViews?: number;
+
   theme?: mongoose.Schema.Types.ObjectId;
   events?: [mongoose.Schema.Types.ObjectId];
 
-  links?: [
-    {
-      url: string;
-      title: string;
-      icon: string;
-      star: boolean;
-      thumbnail?: string;
-      active: boolean;
-      priority: number;
-    }
-  ];
+  links?: [mongoose.Schema.Types.ObjectId];
 
   socialLinks?: {
     facebook: string;
@@ -55,6 +47,8 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
 
+  profileViews: { type: Number, default: 0 },
+
   image: { type: String },
   active: { type: Boolean, default: true },
   password: { type: String, required: true },
@@ -74,13 +68,9 @@ const userSchema = new mongoose.Schema({
 
   links: [
     {
-      url: { type: String, default: "" },
-      title: { type: String, default: "" },
-      icon: { type: String },
-      star: { type: Boolean, default: false },
-      thumbnail: { type: String },
-      active: { type: Boolean, default: false },
-      priority: { type: Number, default: 1 },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Link",
+      default: [],
     },
   ],
 });
