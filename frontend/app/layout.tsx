@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers/Providers";
 import React from "react";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} background-light900`}>
-        <Providers>{children}</Providers>
+        <GoogleOAuthProvider clientId="11657016262-9g9hveivd4ge7smk3k3up610c3fuilb2.apps.googleusercontent.com">
+          <Providers>{children}</Providers>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );

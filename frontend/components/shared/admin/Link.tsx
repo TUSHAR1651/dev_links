@@ -14,13 +14,13 @@ import LinkInput from "../LinkInput";
 import { useAuth } from "@/context/authContext";
 
 const Link = (props: any) => {
-  const { id, title, url, active } = props;
+  const { id, title, url, active, star } = props;
   const [dragging, setDragging] = useState();
 
   const [linkTitle, setLinkTitle] = useState(title);
   const [linkURL, setLinkURL] = useState(url);
 
-  const { updateLink, toggleLink, deleteLink } = useAuth();
+  const { updateLink, toggleLink, deleteLink, starLink } = useAuth();
 
   const urlChangeHandler = (e: any) => {
     setLinkURL(e.target.value);
@@ -72,8 +72,11 @@ const Link = (props: any) => {
               <div className="text-gray-400 hover:text-gray-800">
                 <TooltipProvider>
                   <Tooltip>
-                    <TooltipTrigger>
-                      <Star strokeWidth={1} />
+                    <TooltipTrigger onClick={() => starLink(id)}>
+                      <Star
+                        className={`${star ? "text-yellow-700" : ""}`}
+                        strokeWidth={1}
+                      />
                     </TooltipTrigger>
                     <TooltipContent>
                       <p className="small-medium">PRIORTIZE</p>

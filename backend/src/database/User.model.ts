@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema({
 
   username: {
     type: String,
-    required: true,
+    // required: true,
     unique: true,
   },
 
@@ -51,12 +51,16 @@ const userSchema = new mongoose.Schema({
 
   image: { type: String },
   active: { type: Boolean, default: true },
-  password: { type: String, required: true },
+  password: { type: String, required: false },
   passwordChangedAt: { type: Date },
   passwordResetToken: { type: String },
   passwordResetExpires: { type: Date },
 
-  theme: { type: mongoose.Schema.Types.ObjectId, ref: "Theme" },
+  theme: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Theme",
+    default: "659d33525b672f0d2449ae23",
+  },
   events: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event", default: [] }],
 
   socialLinks: {

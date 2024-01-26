@@ -8,6 +8,55 @@ import sendEmail from "../utils/email";
 import { signupSchema, signinSchema } from "../validations/zod";
 import Theme from "../database/theme.model";
 import { Link } from "../database/link.model";
+import axios from "axios";
+
+export const oAuthLogin = async (req: Request, res: Response) => {
+  try {
+    const token = req.body.token;
+    console.log(token);
+
+    const google_response = await axios.get(
+      "https://people.googleapis.com/v1/people/me",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          personFields: "emailAddresses,names,photos",
+        },
+      }
+    );
+
+    const data = google_response.data;
+    const email = data.emailAddresses[0].value;
+    const name = data.names[0].displayName;
+    const image = data.photos[0].url;
+
+    const existingUser = await User.findOne({ email });
+    const jwt_token = jwt.sign({ email }, process.env.JWT_SECRET!, {
+      expiresIn: "1d",
+    });
+
+    if (existingUser) {
+      res.status(200).send({ user: existingUser, token: jwt_token });
+      return;
+    }
+
+    const newUser = await User.create({
+      email,
+      name,
+      password: "",
+      profileImage: image,
+    });
+
+    await newUser.save();
+
+    res.status(200).send({ user: newUser, token: jwt_token });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: "OAuth Login Failed" });
+  }
+};
 
 export const Signup = async (req: Request, res: Response) => {
   try {
@@ -23,7 +72,6 @@ export const Signup = async (req: Request, res: Response) => {
     if (password !== confirmPassword)
       return res.status(400).json({ message: "Passwords don't match" });
 
-    // Hashing the password
     const hashedPassword = await bycrptjs.hash(password, 12);
 
     const newUser = new User({
@@ -46,6 +94,8 @@ export const Signup = async (req: Request, res: Response) => {
       user: newUser,
     });
   } catch (error) {
+    console.log(error); // Add other fields as needed
+
     res.status(500).json({ message: "Something went wrongg" });
   }
 };
@@ -286,7 +336,6 @@ export const protect = async (
     if (user.changedPasswordAfter(decoded.iat)) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-
     req.body.user = user;
     next();
   } catch (error) {

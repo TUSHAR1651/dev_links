@@ -5,6 +5,7 @@ import {
   getMyProfile,
   getUserByUsername,
   registerLinkClick,
+  starLink,
   toggleLink,
   updateLink,
   updateProfile,
@@ -23,6 +24,7 @@ userRouter.patch("/link/:id", protect, updateLink);
 userRouter.post("/link", protect, addLink);
 userRouter.delete("/link/:id", protect, deleteLink);
 userRouter.post("/toggle-link", protect, toggleLink);
+userRouter.post("/link/star-link", protect, starLink);
 
 userRouter.post("/link/register-click/:id", registerLinkClick);
 

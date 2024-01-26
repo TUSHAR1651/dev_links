@@ -6,14 +6,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/authContext";
 import { useState } from "react";
-import { sign } from "crypto";
+import { useGoogleLogin } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Page = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { onSignin } = useAuth();
+  const { onSignin, handleGoogleAuth } = useAuth();
 
   const signinHandler = async () => {
     console.log({ email, password });
@@ -21,6 +22,21 @@ const Page = () => {
     console.log({ data });
     router.push("/admin");
   };
+
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log(tokenResponse);
+      const data = await handleGoogleAuth(tokenResponse.access_token);
+
+      // need to improve this ans check for the status code instead of the user object
+      if (data.user) {
+        router.push("/admin");
+      }
+    },
+    onError: (err) => {
+      console.log("Google login error:", err);
+    },
+  });
 
   return (
     <div className="w-full h-screen flex flex-col lg:flex-row items-center justify-center bg-gray-100 dark:bg-gray-800">
@@ -67,7 +83,11 @@ const Page = () => {
             </Button>
           </div>
           <div className="w-full flex justify-center lg:justify-start">
-            <Button className="w-full" variant="outline">
+            <Button
+              className="w-full"
+              variant="outline"
+              onClick={() => login()}
+            >
               <ChromeIcon className="h-6 w-6 mr-2" />
               Sign in with Google
             </Button>

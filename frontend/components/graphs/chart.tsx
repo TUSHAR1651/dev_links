@@ -6,34 +6,24 @@ import { Bar } from "react-chartjs-2";
 
 const Data = [
   {
-    id: 1,
-    year: 2016,
-    userGain: 80000,
-    userLost: 823,
+    referrer: "Facebook",
+    count: 80,
   },
   {
-    id: 2,
-    year: 2017,
-    userGain: 45677,
-    userLost: 345,
+    referrer: "Instagram",
+    count: 100,
   },
   {
-    id: 3,
-    year: 2018,
-    userGain: 78888,
-    userLost: 555,
+    referrer: "Twitter",
+    count: 145,
   },
   {
-    id: 4,
-    year: 2019,
-    userGain: 90000,
-    userLost: 4555,
+    referrer: "Snapchat",
+    count: 11,
   },
   {
-    id: 5,
-    year: 2020,
-    userGain: 4300,
-    userLost: 234,
+    referrer: "Linktree",
+    count: 34,
   },
 ];
 const data = {
@@ -57,14 +47,13 @@ const data = {
 export const BarChart = ({ chartData }: any) => {
   return (
     <div className="chart-container">
-      <h2 style={{ textAlign: "center" }}>Bar Chart</h2>
       <Bar
         data={chartData}
         options={{
           plugins: {
             title: {
               display: true,
-              text: "Users Gained between 2016-2020",
+              text: "Top Referrers",
             },
             legend: {
               display: false,
@@ -80,11 +69,11 @@ Chart.register(CategoryScale);
 
 const MyComponent = () => {
   const [chartData, setChartData] = useState({
-    labels: Data.map((data) => data.year),
+    labels: Data.map((data) => data.referrer),
     datasets: [
       {
-        label: "Users Gained ",
-        data: Data.map((data) => data.userGain),
+        label: "Users Gained",
+        data: Data.map((data) => data.count),
 
         borderColor: "black",
         borderWidth: 2,
@@ -94,7 +83,6 @@ const MyComponent = () => {
 
   return (
     <div>
-      <p>Using Chart.js in React</p>
       <BarChart chartData={chartData} />
     </div>
   );

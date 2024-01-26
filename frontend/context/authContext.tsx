@@ -10,6 +10,7 @@ interface AuthContextType {
   loading?: any;
   onSignin: any;
 
+  handleGoogleAuth: any;
   userLinks: any;
   userTheme: any;
   addLink: any;
@@ -17,6 +18,7 @@ interface AuthContextType {
   toggleLink?: any;
   deleteLink?: any;
   updateTheme?: any;
+  starLink?: any;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -32,6 +34,8 @@ export const AuthContext = createContext<AuthContextType>({
   toggleLink: () => {},
   deleteLink: () => {},
   updateTheme: () => {},
+  starLink: () => {},
+  handleGoogleAuth: () => {},
 });
 
 type AuthProviderProps = {
@@ -42,9 +46,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState(undefined);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [token, setToken] = useState("");
   const [userLinks, setUserLinks] = useState([]);
   const [userTheme, setUserTheme] = useState({});
+
+  const handleGoogleAuth = async (token: string) => {
+    const { data } = await axios.post(
+      "http://localhost:5000/auth/google/callback",
+      {
+        token: token,
+      }
+    );
+
+    localStorage.setItem("token", data.token);
+    setToken(data.token);
+    setUser(data.user);
+    setIsAuthenticated(true);
+
+    return data;
+  };
 
   const addLinkHandler = async () => {
     const res = await axios.post(
@@ -133,6 +153,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUserTheme(data?.theme);
   };
 
+  const starLink = async (id: number) => {
+    const res = await axios.post(
+      "http://localhost:5000/user/link/star-link",
+      {
+        id: id,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+
+    if (res.status == 200) {
+      setUserLinks(res.data.user.links);
+    }
+  };
+
   const onSignin = async ({ email, password }: any) => {
     try {
       console.log(email);
@@ -153,6 +191,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
+    // setting the local storage token
+    setToken(localStorage.getItem("token") || "");
+
     const fetchUser = async () => {
       try {
         const { data } = await axios("http://localhost:5000/user/me", {
@@ -191,6 +232,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         isAuthenticated: isAuthenticated,
         loading: loading,
         onSignin: onSignin,
+        starLink: starLink,
+        handleGoogleAuth: handleGoogleAuth,
       }}
     >
       {children}
@@ -201,6 +244,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 export const useAuth = () => {
   const {
     user,
+    starLink,
     setUser,
     isAuthenticated,
     loading,
@@ -212,6 +256,7 @@ export const useAuth = () => {
     userLinks,
     userTheme,
     updateTheme,
+    handleGoogleAuth,
   } = useContext(AuthContext);
 
   return {
@@ -220,13 +265,15 @@ export const useAuth = () => {
     isAuthenticated,
     loading,
     onSignin,
-    //
+
     addLink,
+    starLink,
     updateLink,
     toggleLink,
     deleteLink,
     userLinks,
     userTheme,
+    handleGoogleAuth,
     updateTheme,
   };
 };

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { User } from "../database/User.model";
 import Theme from "../database/theme.model";
 import { Link } from "../database/link.model";
+import { Event } from "../database/event.model";
 
 // this is for the /me route
 export const getMyProfile = async (req: Request, res: Response) => {
@@ -228,10 +229,16 @@ export const registerLinkClick = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
+    const event = await Event.create({
+      type: "link",
+      date: new Date(),
+      link: id,
+    });
+
     const link = await Link.findByIdAndUpdate(
       id,
       {
-        $inc: { clicks: 1 },
+        $push: { clicks: event._id },
       },
       { new: true }
     );
@@ -241,5 +248,56 @@ export const registerLinkClick = async (req: Request, res: Response) => {
     res.status(200).json({ message: "Link found", link });
   } catch (error) {
     return res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export const starLink = async (req: Request, res: Response) => {
+  try {
+    const user = req.body.user;
+    console.log({ user });
+
+    const { id } = req.body;
+    console.log({ id });
+    const alreadyStared = user.links.find((link: any) => link.star === true);
+    console.log({ alreadyStared });
+
+    if (alreadyStared) {
+      alreadyStared.star = false;
+      await alreadyStared.save();
+
+      if (alreadyStared._id.toString() === id) {
+        return res
+          .status(200)
+          .json({ message: "Link toggled successfully", user: user });
+      }
+    }
+
+    const link = await Link.findById(id);
+
+    if (!link) {
+      return res.status(404).json({ message: "Link not found" });
+    }
+
+    link.star = true;
+
+    await link.save();
+
+    const updatedUser = await User.findById(user._id).populate([
+      {
+        path: "theme",
+        model: Theme,
+      },
+      {
+        path: "links",
+        model: Link,
+      },
+    ]);
+
+    res
+      .status(200)
+      .json({ message: "Link toggled successfully", user: updatedUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Something went very wrong" });
   }
 };

@@ -27,6 +27,7 @@ const LinkContainer = () => {
               title={link.title}
               url={link.url}
               active={link.active}
+              star={link.star}
             />
           );
         })}

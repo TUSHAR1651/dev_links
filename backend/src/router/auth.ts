@@ -8,12 +8,15 @@ import {
   protect,
   CurrentUser,
   DeleteAccount,
+  oAuthLogin,
 } from "../controllers/auth.controller";
 
 const authRouter = express.Router();
 
 authRouter.post("/signup", Signup);
 authRouter.post("/signin", Signin);
+
+authRouter.post("/google/callback", oAuthLogin);
 
 authRouter.post("/forgot-password", ForgotPassword);
 authRouter.post("/refresh_token", RefreshToken);

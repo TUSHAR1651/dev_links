@@ -1,9 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
+
   safelist: [
     "bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black",
     "bg-red-300",
+    "bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-blue-700 via-blue-800 to-gray-900",
+    "bg-gradient-to-r from-green-300 to-purple-400",
   ],
   content: [
     "./pages/**/*.{ts,tsx}",

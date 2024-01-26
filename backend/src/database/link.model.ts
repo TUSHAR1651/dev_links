@@ -7,7 +7,7 @@ export interface ILink extends mongoose.Document {
   star: boolean;
   thumbnail?: string;
   active: boolean;
-  clicks?: number;
+  clicks: [mongoose.Schema.Types.ObjectId];
   //   priority: number;
 }
 
@@ -18,9 +18,9 @@ const linkSchema = new mongoose.Schema({
   star: { type: Boolean, default: false },
   thumbnail: { type: String },
   active: { type: Boolean, default: false },
-  clicks: { type: Number, default: 0 },
+  // clicks: { type: Number, default: 0 },
 
-  // clicks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event", default: [] }],
+  clicks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event", default: [] }],
 
   //   priority: { type: Number, required: true },
 });

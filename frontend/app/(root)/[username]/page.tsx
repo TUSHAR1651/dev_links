@@ -45,7 +45,7 @@ const Page = ({ params }: any) => {
             username={user?.username}
             socialLinks={user?.socialLinks}
           />
-          <ProfileLinks links={user?.links} /> {/* Fixed the type error */}
+          <ProfileLinks links={user?.links} />
         </div>
         <Branding />
       </div>
