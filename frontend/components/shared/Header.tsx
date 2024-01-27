@@ -15,9 +15,17 @@ import {
 
 import { BarChart4, Rows2, Settings, Smartphone } from "lucide-react";
 import { useAuth } from "@/context/authContext";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
-  const { user, setUser, loading } = useAuth();
+  const router = useRouter();
+
+  const { user, logout } = useAuth();
+
+  const logoutHandler = () => {
+    logout();
+    router.push("/auth/signin");
+  };
 
   return (
     <header className=" h-[70px] background-white my-6 mx-2 rounded-full py-2 px-12 flex items-center justify-between">
@@ -61,17 +69,20 @@ const Header = () => {
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar className="cursor-pointer">
-              <AvatarImage src="" />
+              <AvatarImage src={user?.image} />
               <AvatarFallback>{user?.name}</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-white h-[400px]">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuContent className="bg-white ">
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Team</DropdownMenuItem>
-            <DropdownMenuItem>Subscription</DropdownMenuItem>
+            <DropdownMenuItem
+              className="text-red-600"
+              onClick={() => {
+                logoutHandler();
+              }}
+            >
+              Logout
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

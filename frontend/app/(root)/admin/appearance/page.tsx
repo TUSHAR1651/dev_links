@@ -6,7 +6,7 @@ const Page = () => {
   return (
     <>
       <section className="grid grid-cols-5 justify-items-center mx-10">
-        <div className="w-full col-span-3 justify-self-center">
+        <div className="w-full col-span-3 justify-self-center ">
           <AppearanceBox />
         </div>
         <div className="justify-self-center">

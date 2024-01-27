@@ -2,8 +2,6 @@ import express from "express";
 import rateLimit from "express-rate-limit";
 
 import { createRouteHandler } from "uploadthing/express";
-import { uploadRouter } from "./uploadthing";
-
 import authRouter from "./router/auth";
 import cors from "cors";
 
@@ -23,14 +21,6 @@ app.use(express.json());
 // });
 
 // app.use("/", limiter);
-
-app.use(
-  "/api/uploadthing",
-  createRouteHandler({
-    router: uploadRouter,
-    config: {},
-  })
-);
 
 app.use("/auth", authRouter);
 app.use("/user", userRouter);

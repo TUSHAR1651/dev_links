@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["localhost", "ugc.production.linktr.ee"],
+    domains: ["localhost", "ugc.production.linktr.ee", "utfs.io"],
   },
 };
 

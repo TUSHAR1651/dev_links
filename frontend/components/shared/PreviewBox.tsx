@@ -8,9 +8,9 @@ const PreviewBox = () => {
       <div>
         <Tabs defaultValue="phone">
           <TabsList>
-            <TabsTrigger value="phone">Phone</TabsTrigger>
-            <TabsTrigger value="tablet">Tablet</TabsTrigger>
-            <TabsTrigger value="laptop">Laptop</TabsTrigger>
+            {/* <TabsTrigger value="phone">Phone</TabsTrigger> */}
+            {/* <TabsTrigger value="tablet">Tablet</TabsTrigger> */}
+            {/* <TabsTrigger value="laptop">Laptop</TabsTrigger> */}
           </TabsList>
           <TabsContent value="phone">
             <Phone />

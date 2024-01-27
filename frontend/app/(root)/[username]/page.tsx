@@ -6,11 +6,6 @@ import ProfileLinks from "@/components/shared/profile/ProfileLinks";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-// interface User {
-//   links: string[]; // Add the 'links' property with the appropriate type
-//   name: string;
-// }
-// Change that to the interface later
 type User = any;
 
 const Page = ({ params }: any) => {
@@ -26,7 +21,6 @@ const Page = ({ params }: any) => {
         const { data } = await axios.get(
           `http://localhost:5000/user/${username}`
         );
-
         setUser(data.user);
       } catch (error) {
         return error;
@@ -42,6 +36,7 @@ const Page = ({ params }: any) => {
       <div className=" w-[600px] h-full m-auto flex flex-col justify-between">
         <div>
           <ProfileHeader
+            image={user?.image}
             username={user?.username}
             socialLinks={user?.socialLinks}
           />

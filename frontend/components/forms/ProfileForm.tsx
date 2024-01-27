@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from "zod";
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -40,8 +40,6 @@ function ProfileForm() {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // console.log(values);
-
     if (values.username == user.username) return console.log("No changes made");
 
     try {
@@ -57,7 +55,6 @@ function ProfileForm() {
           },
         }
       );
-      console.log(data);
 
       setUser(data.user);
     } catch (error) {

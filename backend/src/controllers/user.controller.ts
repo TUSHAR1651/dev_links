@@ -215,6 +215,7 @@ export const updateProfile = async (req: Request, res: Response) => {
       user._id,
       {
         username,
+        usernameThere: true,
       },
       { new: true, runValidators: true }
     );
@@ -299,5 +300,27 @@ export const starLink = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went very wrong" });
+  }
+};
+
+export const addImage = async (req: Request, res: Response) => {
+  try {
+    const user = req.body.user;
+
+    const { image } = req.body;
+
+    console.log({ image });
+
+    const updatedUser = await User.findByIdAndUpdate(
+      user._id,
+      {
+        image,
+      },
+      { new: true, runValidators: true }
+    );
+
+    res.status(200).json({ message: "User found", user: updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
   }
 };

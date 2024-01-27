@@ -9,6 +9,7 @@ import {
   toggleLink,
   updateLink,
   updateProfile,
+  addImage,
   updateUserTheme,
 } from "../controllers/user.controller";
 import { protect } from "../controllers/auth.controller";
@@ -21,6 +22,8 @@ userRouter.patch("/me", protect, updateProfile);
 userRouter.get("/:username", getUserByUsername);
 
 userRouter.patch("/link/:id", protect, updateLink);
+
+userRouter.post("/image", protect, addImage);
 userRouter.post("/link", protect, addLink);
 userRouter.delete("/link/:id", protect, deleteLink);
 userRouter.post("/toggle-link", protect, toggleLink);

@@ -10,7 +10,7 @@ import React from "react";
 
 const Page = () => {
   const router = useRouter();
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, user } = useAuth();
 
   if (loading) {
     return <div>Loading...</div>;
@@ -23,9 +23,8 @@ const Page = () => {
   return (
     <>
       <section className="grid grid-cols-5 justify-items-center gap-12 mx-10">
-        {/* <p>{JSON.stringify(user)}</p> */}
         <div className="w-full col-span-3 justify-self-center">
-          <LinkBar />
+          <LinkBar user={user} />
           <SettingsBox />
         </div>
         <div className="justify-self-center w-full">

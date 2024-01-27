@@ -9,6 +9,7 @@ interface AuthContextType {
   isAuthenticated?: any;
   loading?: any;
   onSignin: any;
+  logout?: any;
 
   handleGoogleAuth: any;
   userLinks: any;
@@ -19,6 +20,7 @@ interface AuthContextType {
   deleteLink?: any;
   updateTheme?: any;
   starLink?: any;
+  updateUserImage?: any;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -36,6 +38,8 @@ export const AuthContext = createContext<AuthContextType>({
   updateTheme: () => {},
   starLink: () => {},
   handleGoogleAuth: () => {},
+  updateUserImage: () => {},
+  logout: () => {},
 });
 
 type AuthProviderProps = {
@@ -153,6 +157,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUserTheme(data?.theme);
   };
 
+  const updateUserImage = async (imageUrl: string) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/user/image",
+        {
+          image: imageUrl,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+
+      console.log(res.data);
+      console.log(res.data.user);
+
+      setUser(res.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const starLink = async (id: number) => {
     const res = await axios.post(
       "http://localhost:5000/user/link/star-link",
@@ -188,6 +215,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } catch (error) {
       return error;
     }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken("");
+    setIsAuthenticated(false);
   };
 
   useEffect(() => {
@@ -228,12 +261,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         userTheme: userTheme,
         updateTheme: updateUserActiveTheme,
         user: user,
+        logout: logout,
         setUser: setUser,
         isAuthenticated: isAuthenticated,
         loading: loading,
         onSignin: onSignin,
         starLink: starLink,
         handleGoogleAuth: handleGoogleAuth,
+        updateUserImage: updateUserImage,
       }}
     >
       {children}
@@ -244,6 +279,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 export const useAuth = () => {
   const {
     user,
+    logout,
     starLink,
     setUser,
     isAuthenticated,
@@ -255,6 +291,7 @@ export const useAuth = () => {
     deleteLink,
     userLinks,
     userTheme,
+    updateUserImage,
     updateTheme,
     handleGoogleAuth,
   } = useContext(AuthContext);
@@ -265,7 +302,8 @@ export const useAuth = () => {
     isAuthenticated,
     loading,
     onSignin,
-
+    updateUserImage,
+    logout,
     addLink,
     starLink,
     updateLink,

@@ -5,6 +5,7 @@ import crypto from "crypto";
 export interface IUser extends mongoose.Document {
   name?: string;
   username?: string;
+  usernameThere?: boolean;
   email: string;
   password: string;
   passwordChangedAt?: Date;
@@ -20,12 +21,7 @@ export interface IUser extends mongoose.Document {
 
   links?: [mongoose.Schema.Types.ObjectId];
 
-  socialLinks?: {
-    facebook: string;
-    instagram: string;
-    linkedin: string;
-    twitter: string;
-  };
+  socialLinks?: [mongoose.Schema.Types.ObjectId];
 
   correctPassword: (
     candidatePassword: string,
@@ -43,9 +39,11 @@ const userSchema = new mongoose.Schema({
 
   username: {
     type: String,
-    // required: true,
     unique: true,
   },
+
+  // currentlym this is only handled for the google login
+  usernameThere: { type: Boolean, default: false },
 
   profileViews: { type: Number, default: 0 },
 
@@ -63,12 +61,9 @@ const userSchema = new mongoose.Schema({
   },
   events: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event", default: [] }],
 
-  socialLinks: {
-    facebook: { type: String, default: "" },
-    instagram: { type: String, default: "" },
-    linkedin: { type: String, default: "" },
-    twitter: { type: String, default: "" },
-  },
+  socialLinks: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "sociallinks", default: [] },
+  ],
 
   links: [
     {
