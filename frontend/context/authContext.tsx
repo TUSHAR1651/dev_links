@@ -21,6 +21,7 @@ interface AuthContextType {
   updateTheme?: any;
   starLink?: any;
   updateUserImage?: any;
+  addSocialLink?: any;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -40,6 +41,7 @@ export const AuthContext = createContext<AuthContextType>({
   handleGoogleAuth: () => {},
   updateUserImage: () => {},
   logout: () => {},
+  addSocialLink: () => {},
 });
 
 type AuthProviderProps = {
@@ -153,7 +155,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     );
 
-    // console.log(data?.theme);
     setUserTheme(data?.theme);
   };
 
@@ -217,6 +218,27 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const addSocialLink = async (values: any) => {
+    console.log(values);
+    try {
+      const { data } = await axios.post(
+        "http://localhost:5000/user/social-link",
+        {
+          data: values,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+
+      setUser(data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
     setToken("");
@@ -269,6 +291,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         starLink: starLink,
         handleGoogleAuth: handleGoogleAuth,
         updateUserImage: updateUserImage,
+        addSocialLink: addSocialLink,
       }}
     >
       {children}
@@ -293,6 +316,7 @@ export const useAuth = () => {
     userTheme,
     updateUserImage,
     updateTheme,
+    addSocialLink,
     handleGoogleAuth,
   } = useContext(AuthContext);
 
@@ -307,6 +331,7 @@ export const useAuth = () => {
     addLink,
     starLink,
     updateLink,
+    addSocialLink,
     toggleLink,
     deleteLink,
     userLinks,

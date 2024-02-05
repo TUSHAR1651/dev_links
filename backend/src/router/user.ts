@@ -11,6 +11,7 @@ import {
   updateProfile,
   addImage,
   updateUserTheme,
+  addSocialLink,
 } from "../controllers/user.controller";
 import { protect } from "../controllers/auth.controller";
 
@@ -35,7 +36,7 @@ userRouter.post("/theme", protect, updateUserTheme);
 
 // These routes are for the social links in the user model
 // Here instead of the ID we will be using the name of the social media since they are unique
-userRouter.post("/social-link", protect, addLink);
+userRouter.post("/social-link", protect, addSocialLink);
 userRouter.patch("/social-link/:id", protect, addLink);
 userRouter.delete("/social-link/:id", protect, addLink);
 

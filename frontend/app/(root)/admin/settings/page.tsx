@@ -10,7 +10,7 @@ const page = () => {
         <div className="w-full col-span-3 justify-self-center">
           <SettingContainer />
         </div>
-        <div className="justify-self-center">{/* <PreviewBox /> */}</div>
+        <div className="justify-self-center"></div>
       </section>
     </div>
   );

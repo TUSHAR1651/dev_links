@@ -3,12 +3,28 @@ import { User } from "../database/User.model";
 import Theme from "../database/theme.model";
 import { Link } from "../database/link.model";
 import { Event } from "../database/event.model";
+import { ISocial, SocialLink } from "../database/socailLink.model";
+import { CurrentUser } from "./auth.controller";
 
 // this is for the /me route
 export const getMyProfile = async (req: Request, res: Response) => {
   try {
-    const user = req.body.user;
-    // console.log({ user });
+    let user = req.body.user;
+
+    user = await User.findById(user._id).populate([
+      {
+        path: "theme",
+        model: Theme,
+      },
+      {
+        path: "links",
+        model: Link,
+      },
+      {
+        path: "socialLinks",
+        model: SocialLink,
+      },
+    ]);
 
     res.status(200).json({ message: "User found", user });
   } catch (error) {
@@ -321,6 +337,65 @@ export const addImage = async (req: Request, res: Response) => {
 
     res.status(200).json({ message: "User found", user: updatedUser });
   } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export const addSocialLink = async (req: Request, res: Response) => {
+  // What if the user removes the url shoudl we delete it or just an empty string be in the DB
+
+  try {
+    const user = req.body.user;
+
+    const { data } = req.body;
+
+    const dbUser = await User.findById(user._id).populate([
+      {
+        path: "socialLinks",
+        model: SocialLink,
+      },
+    ]);
+
+    const curLinks = dbUser?.socialLinks;
+
+    for (let i = 0; i < data.length; i++) {
+      const { url, title } = data[i];
+
+      const isThere = curLinks?.find((link: any) => link.title === title);
+
+      if (!isThere && url === "") continue;
+
+      let id;
+      let socialLink = undefined;
+
+      if (isThere) {
+        // @ts-ignore: Unreachable code error
+        id = isThere._id;
+        socialLink = await SocialLink.findByIdAndUpdate(id, {
+          url,
+          title,
+        });
+      } else {
+        socialLink = await SocialLink.create({
+          url,
+          title,
+        });
+      }
+
+      if (!(socialLink == undefined)) {
+        await User.findByIdAndUpdate(
+          user._id,
+          {
+            $addToSet: { socialLinks: socialLink._id },
+          },
+          { new: true }
+        );
+      }
+    }
+
+    return res.status(200).json({ message: "User found", user: dbUser });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };

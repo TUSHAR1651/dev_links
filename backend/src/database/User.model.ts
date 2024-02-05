@@ -62,7 +62,7 @@ const userSchema = new mongoose.Schema({
   events: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event", default: [] }],
 
   socialLinks: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "sociallinks", default: [] },
+    { type: mongoose.Schema.Types.ObjectId, ref: "SocialLink", default: [] },
   ],
 
   links: [
@@ -74,6 +74,7 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
+// This is for finding the active users => since I am using soft delete only
 // This is giving an error == this is for delete api route
 // userSchema.pre(/^find/, function (next: NextFunction) {
 //   this.find({ active: { $ne: false } });

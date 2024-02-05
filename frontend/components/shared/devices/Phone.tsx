@@ -57,8 +57,6 @@ const Phone = () => {
           socialLinks={user?.socialLinks}
         />
 
-        {/* {JSON.stringify(user.socialLinks)} */}
-
         <div className="flex flex-col gap-6 justify-center items-center">
           {userLinks
             .filter((link: any) => link.active)
