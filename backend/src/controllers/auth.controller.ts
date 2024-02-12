@@ -13,7 +13,6 @@ import axios from "axios";
 export const oAuthLogin = async (req: Request, res: Response) => {
   try {
     const token = req.body.token;
-    console.log(token);
 
     const google_response = await axios.get(
       "https://people.googleapis.com/v1/people/me",
@@ -63,36 +62,6 @@ export const Signup = async (req: Request, res: Response) => {
     signupSchema.parse(req.body);
 
     const { email, password, confirmPassword, username, name } = req.body;
-
-    const existingUser = await User.findOne({ email });
-
-    if (existingUser)
-      return res.status(400).json({ message: "User already exists" });
-
-    if (password !== confirmPassword)
-      return res.status(400).json({ message: "Passwords don't match" });
-
-    const hashedPassword = await bycrptjs.hash(password, 12);
-
-    const newUser = new User({
-      email,
-      password: hashedPassword,
-      username,
-      name,
-    });
-
-    await newUser.save();
-
-    const token = jwt.sign({ email }, process.env.JWT_SECRET!, {
-      expiresIn: "1d",
-    });
-
-    res.status(200).json({
-      token,
-      message: "User created successfully",
-      status: "success",
-      user: newUser,
-    });
   } catch (error) {
     console.log(error); // Add other fields as needed
 

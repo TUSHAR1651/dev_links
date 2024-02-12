@@ -50,6 +50,10 @@ export const getUserByUsername = async (req: Request, res: Response) => {
         path: "links",
         model: Link,
       },
+      {
+        path: "socialLinks",
+        model: SocialLink,
+      },
     ]);
 
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -271,12 +275,9 @@ export const registerLinkClick = async (req: Request, res: Response) => {
 export const starLink = async (req: Request, res: Response) => {
   try {
     const user = req.body.user;
-    console.log({ user });
 
     const { id } = req.body;
-    console.log({ id });
     const alreadyStared = user.links.find((link: any) => link.star === true);
-    console.log({ alreadyStared });
 
     if (alreadyStared) {
       alreadyStared.star = false;
@@ -324,8 +325,6 @@ export const addImage = async (req: Request, res: Response) => {
     const user = req.body.user;
 
     const { image } = req.body;
-
-    console.log({ image });
 
     const updatedUser = await User.findByIdAndUpdate(
       user._id,

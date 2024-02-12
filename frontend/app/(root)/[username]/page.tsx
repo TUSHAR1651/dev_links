@@ -23,6 +23,7 @@ const Page = ({ params }: any) => {
         );
         setUser(data.user);
       } catch (error) {
+        console.log(error);
         return error;
       } finally {
         setLoading(false);

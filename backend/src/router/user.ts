@@ -34,10 +34,7 @@ userRouter.post("/link/register-click/:id", registerLinkClick);
 
 userRouter.post("/theme", protect, updateUserTheme);
 
-// These routes are for the social links in the user model
-// Here instead of the ID we will be using the name of the social media since they are unique
+// This route handles posting updating n soft delete of social links
 userRouter.post("/social-link", protect, addSocialLink);
-userRouter.patch("/social-link/:id", protect, addLink);
-userRouter.delete("/social-link/:id", protect, addLink);
 
 export default userRouter;
