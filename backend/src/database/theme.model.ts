@@ -1,22 +1,30 @@
 import mongoose from "mongoose";
 
 export interface ITheme extends mongoose.Document {
-  name: string;
-  background: string;
-  backgroundImage: string;
-  buttons: string;
+  name?: string;
+
+  backgroundColor: string;
   textColor: string;
-  otherCss: string;
+
+  buttonColor: string;
+  buttonShape: string;
+  buttonText: string;
+
+  // otherCss: string;
   custom: boolean;
 }
 
 const themeSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  background: { type: String, required: true },
-  backgroundImage: { type: String, required: true },
-  buttons: { type: String, required: true },
+  name: { type: String, required: true, default: "Custom Theme" },
+
+  backgroundColor: { type: String, required: true },
   textColor: { type: String, required: true },
-  otherCss: { type: String, required: true },
+
+  buttonColor: { type: String, required: true },
+  buttonShape: { type: String, required: true },
+  buttonText: { type: String, required: true },
+
+  // otherCss: { type: String, required: true },
   custom: { type: Boolean, required: true },
 });
 

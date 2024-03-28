@@ -23,7 +23,6 @@ const Page = ({ params }: any) => {
         );
         setUser(data.user);
       } catch (error) {
-        console.log(error);
         return error;
       } finally {
         setLoading(false);
@@ -33,7 +32,12 @@ const Page = ({ params }: any) => {
   }, [username]);
 
   return (
-    <div className={`${user?.theme?.background} h-[100vh]`}>
+    <div
+      className={`h-[100vh]`}
+      style={{
+        backgroundColor: user?.theme?.backgroundColor,
+      }}
+    >
       <div className=" w-[600px] h-full m-auto flex flex-col justify-between">
         <div>
           <ProfileHeader

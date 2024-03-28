@@ -17,9 +17,9 @@ const Page = () => {
   const { onSignin, handleGoogleAuth } = useAuth();
 
   const signinHandler = async () => {
-    console.log({ email, password });
+    // console.log({ email, password });
     const data = await onSignin({ email, password });
-    console.log({ data });
+    // console.log({ data });
     router.push("/admin");
   };
 

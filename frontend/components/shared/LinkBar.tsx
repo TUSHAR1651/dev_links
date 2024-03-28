@@ -5,25 +5,25 @@ import React from "react";
 import { Button } from "../ui/button";
 
 const LinkBar = ({ user }: any) => {
-  console.log(user);
+  const [copied, setCopied] = React.useState(false);
+
   return (
     <div className="bg-indigo-100 py-6 px-8 rounded-3xl mb-12 flex justify-between items-center">
       <div className="flex gap-4 items-center justify-center">
-        Link bar will show here
         <p>
-          {/* {user.usernameThere
+          {user.usernameThere
             ? "Your Profile is active at the URL:"
-            : "To activate your profile"} */}
+            : "To activate your profile"}
         </p>
         <span className="paragraph-semibold hover:underline hover:cursor-pointer">
-          {/* {user.usernameThere ? (
+          {user.usernameThere ? (
             <Link href={`/${user?.username}`}>devlinks/{user?.username}</Link>
           ) : (
             <Link href={`/admin/appearance`}>Update Username</Link>
-          )} */}
+          )}
         </span>
       </div>
-      {/* 
+
       {user.usernameThere && (
         <div className="flex gap-3 items-center justify-center">
           <p className="small-regular">Share your profile with your friends</p>
@@ -37,7 +37,7 @@ const LinkBar = ({ user }: any) => {
             Copy Link
           </Button>
         </div>
-      )} */}
+      )}
     </div>
   );
 };

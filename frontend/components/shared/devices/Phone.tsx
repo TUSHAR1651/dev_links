@@ -8,7 +8,7 @@ import { DeviceFrameset } from "react-device-frameset";
 import "react-device-frameset/styles/marvel-devices.min.css";
 
 import ProfileHeader from "../profile/ProfileHeader";
-import ProfileLinks from "../profile/ProfileLinks";
+// import ProfileLinks from "../profile/ProfileLinks";
 import Branding from "../profile/Branding";
 
 const Phone = () => {
@@ -19,7 +19,10 @@ const Phone = () => {
   return (
     <DeviceFrameset device="iPhone X" color="gold">
       <div
-        className={`${userTheme?.background} py-4 px-8 h-full w-full rounded-lg`}
+        className={` py-4 px-8 h-full w-full rounded-lg`}
+        style={{
+          backgroundColor: `${userTheme?.backgroundColor}`,
+        }}
       >
         <ProfileHeader
           image={user?.image}
@@ -34,7 +37,11 @@ const Phone = () => {
               return (
                 <div
                   key={link.id}
-                  className={`${userTheme?.buttons} w-[200px] text-center py-4 rounded-full cursor-pointer`}
+                  className={`w-[200px] text-center py-4 rounded-full cursor-pointer`}
+                  style={{
+                    backgroundColor: `${userTheme?.buttonColor}`,
+                    color: `${userTheme?.buttonText}`,
+                  }}
                 >
                   {link.title}
                 </div>

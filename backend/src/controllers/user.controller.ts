@@ -3,10 +3,8 @@ import { User } from "../database/User.model";
 import Theme from "../database/theme.model";
 import { Link } from "../database/link.model";
 import { Event } from "../database/event.model";
-import { ISocial, SocialLink } from "../database/socailLink.model";
-import { CurrentUser } from "./auth.controller";
+import { SocialLink } from "../database/socailLink.model";
 
-// this is for the /me route
 export const getMyProfile = async (req: Request, res: Response) => {
   try {
     let user = req.body.user;
@@ -55,7 +53,7 @@ export const getUserByUsername = async (req: Request, res: Response) => {
         model: SocialLink,
       },
     ]);
-
+    // mail options
     if (!user) return res.status(404).json({ message: "User not found" });
 
     res.status(200).json({ message: "User found", user });
@@ -129,7 +127,7 @@ export const updateLink = async (req: Request, res: Response) => {
 
     res.status(200).json({ message: "User found", user: updatedUser });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).json({ message: "Something went wrong", error });
   }
 };
@@ -204,24 +202,6 @@ export const toggleLink = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went very wrong" });
-  }
-};
-
-export const updateUserTheme = async (req: Request, res: Response) => {
-  try {
-    const user = req.body.user;
-
-    const { id } = req.body;
-
-    const theme = await Theme.findById(id);
-
-    if (!theme) return res.status(404).json({ message: "Theme not found" });
-
-    await User.findByIdAndUpdate(user._id, { theme: theme?._id });
-
-    res.status(200).json({ message: "User found", theme });
-  } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
   }
 };
 
@@ -341,8 +321,6 @@ export const addImage = async (req: Request, res: Response) => {
 };
 
 export const addSocialLink = async (req: Request, res: Response) => {
-  // What if the user removes the url shoudl we delete it or just an empty string be in the DB
-
   try {
     const user = req.body.user;
 
@@ -396,5 +374,87 @@ export const addSocialLink = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export const updateUserTheme = async (req: Request, res: Response) => {
+  try {
+    const user = req.body.user;
+    const { id } = req.body;
+
+    const dbUser = await User.findById(user._id);
+
+    if (!dbUser) return res.status(404).json({ message: "User not found" });
+
+    const hasCustom = dbUser.hasCustomThemeApplied;
+
+    if (hasCustom) {
+      await Theme.deleteOne({ _id: dbUser.theme });
+    }
+
+    const theme = await Theme.findById(id);
+
+    if (!theme) return res.status(404).json({ message: "Theme not found" });
+
+    await User.findByIdAndUpdate(user._id, { theme: theme?._id });
+    await User.findByIdAndUpdate(user._id, { hasCustomThemeApplied: false });
+
+    res.status(200).json({ message: "User found", theme });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export const updateCustomTheme = async (req: Request, res: Response) => {
+  const user = req.body.user;
+
+  const {
+    backgroundColor,
+    textColor,
+    buttonColor,
+    buttonShape,
+    buttonText,
+    custom,
+  } = req.body;
+
+  const dbUser = await User.findById(user._id);
+
+  console.log(req.body);
+
+  if (!dbUser) return res.status(404).json({ message: "User not found" });
+
+  const hasCustom = dbUser.hasCustomThemeApplied;
+
+  if (!hasCustom) {
+    const newTheme = await Theme.create({
+      name: "Custom",
+      backgroundColor: backgroundColor,
+      buttonColor: buttonColor,
+      textColor: "#000",
+      buttonText: buttonText,
+      buttonShape: buttonShape,
+      custom: true,
+    });
+
+    dbUser.theme = newTheme._id;
+    dbUser.hasCustomThemeApplied = true;
+    await dbUser.save();
+
+    res.status(200).json({ message: "User found", newTheme });
+  } else {
+    const theme = await Theme.findByIdAndUpdate(
+      dbUser.theme,
+      {
+        name: "Custom",
+        backgroundColor,
+        buttonShape,
+        buttonText,
+        buttonColor,
+        textColor,
+        custom,
+      },
+      { new: true }
+    );
+    res.status(200).json({ message: "User found", theme });
   }
 };

@@ -1,9 +1,15 @@
 import React from "react";
 
 const ButtonCard = (props: any) => {
-  const { properties } = props;
+  const { color } = props;
+
   return (
-    <div className={`w-[200px] h-[40px] ${properties.backgroundColor}`}></div>
+    <div
+      className={`w-[200px] h-[40px]`}
+      style={{
+        backgroundColor: color,
+      }}
+    ></div>
   );
 };
 

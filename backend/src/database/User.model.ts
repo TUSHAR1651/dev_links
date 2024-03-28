@@ -17,6 +17,8 @@ export interface IUser extends mongoose.Document {
   profileViews?: number;
 
   theme?: mongoose.Schema.Types.ObjectId;
+  hasCustomThemeApplied?: boolean;
+
   events?: [mongoose.Schema.Types.ObjectId];
 
   links?: [mongoose.Schema.Types.ObjectId];
@@ -42,7 +44,6 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
 
-  // currentlym this is only handled for the google login
   usernameThere: { type: Boolean, default: false },
 
   profileViews: { type: Number, default: 0 },
@@ -57,8 +58,11 @@ const userSchema = new mongoose.Schema({
   theme: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Theme",
-    default: "659d33525b672f0d2449ae23",
+    default: process.env.DEFAULT_THEME_ID!,
   },
+
+  hasCustomThemeApplied: { type: Boolean, default: false },
+
   events: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event", default: [] }],
 
   socialLinks: [
@@ -85,7 +89,6 @@ userSchema.methods.correctPassword = async function (
   candidatePassword: string,
   userPassword: string
 ) {
-  console.log({ candidatePassword, userPassword });
   return await bycrptjs.compare(candidatePassword, userPassword);
 };
 

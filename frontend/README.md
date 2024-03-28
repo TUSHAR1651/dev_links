@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### Issues that I encoutered during the FE
 
-## Getting Started
+#### Custom Themes
 
-First, run the development server:
+1. While building custom theme feature, if I create a new Theme for every custom theme then I will be left many unused theme in the DB and moreover users dont have the reference to those theme in their accounts.
+   Moreover the complexity in terms of the avaible options to the user are really less
+2. So I decided to assign custom look prperty to the userModel,which will reduce my calls to DB to create a new theme everytime user changes minor details
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+3. Instead I will change the prop to the userModel and will use debounce so that their is reduction in the number of calls to the DB
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Again change , Now I am creating model for a custom model but for max one user there will only be one model since I changing that model everytime
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+5. Calls to DB remain the same....
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+#### Applying styles to the FE
 
-## Learn More
+1. Since the css was applied dynamically and tried changing the config which includes all the classes but the file size was too much \*
 
-To learn more about Next.js, take a look at the following resources:
+2. So I decided to use inline css for the same but still trying to find if there is a way to use tailwind in such case.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Making the FE SSR
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. Since this is my first time I am using Nextjs with express,So I am understanding how to apply SSR to the app.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Happy Coding!! ugghhhh

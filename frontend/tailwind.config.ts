@@ -8,6 +8,16 @@ module.exports = {
     "bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-blue-700 via-blue-800 to-gray-900",
     "bg-gradient-to-r from-green-300 to-purple-400",
   ],
+
+  // purge: {
+  //   content: ["./src/**/*.html", "./src/**/*.js" /* ... */],
+  //   safelist: ["*"], // Include every class in the safelist
+  // },
+  // purge: {
+  //   content: ["./src/**/*.html", "./src/**/*.js" /* ... */],
+  //   safelist: ["*"], // Include every class in the safelist
+  // },
+
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",

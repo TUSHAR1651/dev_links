@@ -1,7 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContextType {
   user: any;
@@ -10,10 +10,11 @@ interface AuthContextType {
   loading?: any;
   onSignin: any;
   logout?: any;
-
   handleGoogleAuth: any;
   userLinks: any;
+
   userTheme: any;
+
   addLink: any;
   updateLink?: any;
   toggleLink?: any;
@@ -31,7 +32,9 @@ export const AuthContext = createContext<AuthContextType>({
   loading: false,
   onSignin: () => {},
   userLinks: [],
+
   userTheme: {},
+
   addLink: () => {},
   updateLink: () => {},
   toggleLink: () => {},
@@ -54,6 +57,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState("");
   const [userLinks, setUserLinks] = useState([]);
+
   const [userTheme, setUserTheme] = useState({});
 
   const handleGoogleAuth = async (token: string) => {
@@ -143,8 +147,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const updateUserActiveTheme = async (id: number) => {
+    console.log(id);
+
     const { data } = await axios.post(
-      "http://localhost:5000/user/theme",
+      "http://localhost:5000/user/update-theme",
       {
         id: id,
       },
@@ -154,9 +160,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         },
       }
     );
+    console.log(data);
 
     setUserTheme(data?.theme);
   };
+
+  // const updateUserCustomTheme = async (data: any) => {
+  //   const res = await axios.post(
+  //     "http://localhost:5000/user/custom-theme",
+  //     {
+  //       data: data,
+  //     },
+  //     {
+  //       headers: {
+  //         Authorization: "Bearer " + localStorage.getItem("token"),
+  //       },
+  //     }
+  //   );
+  // };
 
   const updateUserImage = async (imageUrl: string) => {
     try {
@@ -244,7 +265,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    // setting the local storage token
     setToken(localStorage.getItem("token") || "");
 
     const fetchUser = async () => {
@@ -278,8 +298,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         toggleLink: activeToggleHandler,
         deleteLink: deleteLinkHandler,
         userLinks: userLinks,
+
         userTheme: userTheme,
         updateTheme: updateUserActiveTheme,
+
         user: user,
         logout: logout,
         setUser: setUser,
@@ -311,7 +333,9 @@ export const useAuth = () => {
     toggleLink,
     deleteLink,
     userLinks,
+
     userTheme,
+
     updateUserImage,
     updateTheme,
     addSocialLink,

@@ -1,8 +1,9 @@
 import express from "express";
-import { getAllThemes } from "../controllers/theme.controller";
+import { addTheme, getAllThemes } from "../controllers/theme.controller";
 
 const themeRouter = express.Router();
 
 themeRouter.get("/", getAllThemes);
+themeRouter.post("/create", addTheme);
 
 export default themeRouter;

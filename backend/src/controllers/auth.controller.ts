@@ -52,7 +52,7 @@ export const oAuthLogin = async (req: Request, res: Response) => {
 
     res.status(200).send({ user: newUser, token: jwt_token });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).send({ error: "OAuth Login Failed" });
   }
 };
@@ -63,7 +63,7 @@ export const Signup = async (req: Request, res: Response) => {
 
     const { email, password, confirmPassword, username, name } = req.body;
   } catch (error) {
-    console.log(error); // Add other fields as needed
+    // console.log(error); // Add other fields as needed
 
     res.status(500).json({ message: "Something went wrongg" });
   }

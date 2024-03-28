@@ -8,8 +8,11 @@ const AppearanceCard = (props: any) => {
   const { userTheme, loading, updateTheme } = useAuth();
 
   const onSelectHandler = (id: string) => {
+    console.log(id);
     updateTheme(id);
   };
+
+  console.log(userTheme);
 
   const active = userTheme._id === properties._id;
 
@@ -22,20 +25,33 @@ const AppearanceCard = (props: any) => {
       }`}
     >
       <div
-        className={` w-[140px] h-[200px] p-4 bg ${properties.background}`}
+        className={` w-[140px] h-[200px] p-4 bg`}
+        style={{
+          backgroundColor: `${properties.backgroundColor}`,
+        }}
         onClick={() => {
           onSelectHandler(properties._id);
         }}
       >
         <div className="flex flex-col gap-2 items-center mt-14">
           <div
-            className={`w-[100px] h-[20px] rounded-md ${properties.buttons}`}
+            className={`w-[100px] h-[20px] rounded-md`}
+            style={{
+              backgroundColor: `${properties.buttonColor}`,
+            }}
           ></div>
           <div
-            className={`w-[100px] h-[20px] rounded-md ${properties.buttons}`}
+            className={`w-[100px] h-[20px] rounded-md `}
+            style={{
+              backgroundColor: `${properties.buttonColor}`,
+              color: `${properties.buttonText}`,
+            }}
           ></div>
           <div
-            className={`w-[100px] h-[20px] rounded-md ${properties.buttons}`}
+            className={`w-[100px] h-[20px] rounded-md `}
+            style={{
+              backgroundColor: `${properties.buttonColor}`,
+            }}
           ></div>
         </div>
       </div>

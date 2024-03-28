@@ -12,6 +12,7 @@ import {
   addImage,
   updateUserTheme,
   addSocialLink,
+  updateCustomTheme,
 } from "../controllers/user.controller";
 import { protect } from "../controllers/auth.controller";
 
@@ -32,9 +33,9 @@ userRouter.post("/link/star-link", protect, starLink);
 
 userRouter.post("/link/register-click/:id", registerLinkClick);
 
-userRouter.post("/theme", protect, updateUserTheme);
+userRouter.post("/update-theme", protect, updateUserTheme);
+userRouter.post("/update-custom-theme", protect, updateCustomTheme);
 
-// This route handles posting updating n soft delete of social links
 userRouter.post("/social-link", protect, addSocialLink);
 
 export default userRouter;
