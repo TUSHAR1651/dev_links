@@ -1,25 +1,22 @@
-### Issues that I encoutered during the FE
+## Description
 
-#### Custom Themes
+This repository contains a Next.js project designed for building fast and scalable web applications with React. Next.js provides server-side rendering, automatic code splitting, and simple configuration, allowing for a seamless development experience.
 
-1. While building custom theme feature, if I create a new Theme for every custom theme then I will be left many unused theme in the DB and moreover users dont have the reference to those theme in their accounts.
-   Moreover the complexity in terms of the avaible options to the user are really less
-2. So I decided to assign custom look prperty to the userModel,which will reduce my calls to DB to create a new theme everytime user changes minor details
+## Scripts
 
-3. Instead I will change the prop to the userModel and will use debounce so that their is reduction in the number of calls to the DB
+- `dev`: Start the development server with hot reloading.
+- `build`: Build the production-ready application for deployment.
+- `start`: Start the production server.
+- `lint`: Lint the project files using Next.js's built-in linting tool.
 
-4. Again change , Now I am creating model for a custom model but for max one user there will only be one model since I changing that model everytime
+## Getting Started
 
-5. Calls to DB remain the same....
+1. Clone this repository to your local machine.
+2. Install dependencies by running `npm install`.
+3. Use the available scripts to start development, build, and run the project.
 
-#### Applying styles to the FE
+## Dependencies
 
-1. Since the css was applied dynamically and tried changing the config which includes all the classes but the file size was too much \*
+The project relies on the following dependencies:
 
-2. So I decided to use inline css for the same but still trying to find if there is a way to use tailwind in such case.
-
-#### Making the FE SSR
-
-1. Since this is my first time I am using Nextjs with express,So I am understanding how to apply SSR to the app.
-
-Happy Coding!! ugghhhh
+- [Next.js](https://nextjs.org/): The React framework for server-side rendering and static site generation.
