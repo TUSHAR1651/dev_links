@@ -8,7 +8,6 @@ import { useAuth } from "@/context/authContext";
 import { useState } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 
 const Page = () => {
   const router = useRouter();
@@ -17,21 +16,15 @@ const Page = () => {
   const { onSignin, handleGoogleAuth } = useAuth();
 
   const signinHandler = async () => {
-    // console.log({ email, password });
     const data = await onSignin({ email, password });
-    // console.log({ data });
     router.push("/admin");
   };
 
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse);
       const data = await handleGoogleAuth(tokenResponse.access_token);
 
-      // need to improve this ans check for the status code instead of the user object
-      if (data.user) {
-        router.push("/admin");
-      }
+      router.push("/admin");
     },
     onError: (err) => {
       console.log("Google login error:", err);
