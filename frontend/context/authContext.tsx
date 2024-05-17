@@ -222,6 +222,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const onSignin = async ({ email, password }: any) => {
     try {
+      console.log(email);
       const { data } = await axios.post("http://localhost:5000/auth/signin", {
         email,
         password,
@@ -239,6 +240,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const addSocialLink = async (values: any) => {
+    console.log(values);
     try {
       const { data } = await axios.post(
         "http://localhost:5000/user/social-link",

@@ -12,6 +12,8 @@ const ProfileHeader = ({
   username: string;
   socialLinks: any;
 }) => {
+  console.log(socialLinks);
+
   return (
     <div className="p-6 pb-0 mb-12">
       <div className="flex justify-between mb-12">
@@ -21,8 +23,8 @@ const ProfileHeader = ({
 
       <div className="flex justify-center">
         <Image
-          src={image}
           alt="Profile header image"
+          src={image}
           width={96}
           height={96}
           className="rounded-full mb-1"
@@ -33,22 +35,15 @@ const ProfileHeader = ({
         <h2 className="text-lg font-semibold">@{username}</h2>
       </div>
 
-      <div className="flex gap-12 justify-center items-center mt-8">
+      <div className="flex gap-8 justify-center items-center">
         {socialLinks?.map((link: any) => {
           return (
             <Link
-              key={link.title}
+              key={link.id}
               href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              className={`h-[32px] w-[32px] bg-slate-300 rounded-sm cursor-pointer`}
             >
-              <Image
-                src={`/svg_outline/${link.title}.svg`}
-                alt={link.title}
-                width={28}
-                height={28}
-                className="opacity-80 hover:opacity-100 transition-opacity duration-300 ease-in-out"
-              />
+              {/* {link.title} */}
             </Link>
           );
         })}

@@ -12,7 +12,6 @@ import { useAuth } from "@/context/authContext";
 
 const SocialLinks = () => {
   const { userLinks } = useAuth();
-
   return (
     <Table className="bg-white">
       <TableHeader>

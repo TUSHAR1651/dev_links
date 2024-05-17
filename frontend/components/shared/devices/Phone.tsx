@@ -16,6 +16,36 @@ const Phone = () => {
 
   if (loading) return <div>Loading...</div>;
 
+  // return (
+  // <div
+  //   className={`${userTheme?.background} py-4 px-8 h-[800px] w-[375px] rounded-lg`}
+  // >
+  //   <ProfileHeader
+  //     image={user?.image}
+  //     username={user?.username}
+  //     socialLinks={user?.socialLinks}
+  //   />
+
+  //   {/* {JSON.stringify(user.socialLinks)} */}
+
+  //   <div className="flex flex-col gap-6 justify-center items-center">
+  //     {userLinks
+  //       .filter((link: any) => link.active)
+  //       .map((link: any) => {
+  //         return (
+  //           <div
+  //             key={link.id}
+  //             className={`${userTheme?.buttons} w-[200px] text-center py-4 rounded-full cursor-pointer`}
+  //           >
+  //             {link.title}
+  //           </div>
+  //         );
+  //       })}
+  //   </div>
+  //   <Branding />
+  // </div>
+  // );
+
   return (
     <DeviceFrameset device="iPhone X" color="gold">
       <div

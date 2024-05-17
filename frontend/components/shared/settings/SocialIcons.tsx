@@ -1,9 +1,7 @@
 "use client";
-
 import React from "react";
 import SocialLinkModal from "./SocialLinkForm";
 import { useAuth } from "@/context/authContext";
-import Image from "next/image";
 
 const SocialIcons = () => {
   const { user } = useAuth();
@@ -33,17 +31,7 @@ const SocialIcons = () => {
               .map((link: any) => {
                 return (
                   <div key={link.title} className=" flex justify-between p-2">
-                    <div className="flex gap-2">
-                      <Image
-                        width={24}
-                        height={24}
-                        alt=""
-                        src={`/svg/${link.title}.svg`}
-                      />
-                      <div className="">
-                        {capitalizeFirstLetter(link.title)}
-                      </div>
-                    </div>
+                    <div className="">{capitalizeFirstLetter(link.title)}</div>
                     <div className="text-slate-400">{link.url}</div>
                   </div>
                 );
